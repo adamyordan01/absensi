@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
         <div class="sidebar-brand-icon">
             <img src="{{ asset('assets') }}/img/BPNLangsa.png" width="50" height="50" alt="">
         </div>
@@ -16,18 +16,18 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('dashboard') }}">
+        <a class="nav-link" href="#">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('product.index') }}">
+        <a class="nav-link" href="#">
             <i class="fas fa-fw fa-box-open"></i>
             <span>Barang</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('category.index') }}">
+        <a class="nav-link" href="#">
             <i class="fas fa-fw fa-boxes"></i>
             <span>Kategori Barang</span></a>
     </li>
