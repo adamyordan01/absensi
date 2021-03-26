@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +22,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [HomeController::class, 'index'])->middleware('can:isPegawai')->name('home');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('can:isPegawai,isAdmin')->name('home');
+    
+    Route::get('/attendance-in', [AttendanceController::class, 'index'])->middleware('can:isPegawai')->name('attendance-in');
+
+    Route::post('/attendance-in', [AttendanceController::class, 'store'])->middleware('can:isPegawai')->name('attendance-in-store');
+});

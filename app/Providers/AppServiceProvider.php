@@ -32,12 +32,12 @@ class AppServiceProvider extends ServiceProvider
         //MEMBUAT GATE DIMANA PARAMETER PERTAMA ADALAH NAMA GATE-NYA
         //DAN PARAMETER SELANJUTNYA ADALAH CLOSURE FUNCTION
         //DIMANA KITA MELAKUKAN PENGECEKAN, JIKA USER YANG SEDANG LOGIN ROLE BERNILAI TRUE, MAKA DIA AKAN DIIZINKAN
-        Gate::define('isAdmin', function($user) {
-            return $user->level == 'admin';
-        });
+        // Gate::define('isAdmin', function($user) {
+        //     return $user->level == 'admin';
+        // });
 
-        Gate::define('isPegawai', function($user) {
-            return $user->level == 'pegawai';
-        });
+        // Gate::define('isPegawai', function($user) {
+        //     return $user->level == 'pegawai';
+        // });
     }
 }
