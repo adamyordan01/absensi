@@ -67,6 +67,12 @@ return [
     |
     */
 
+    // Ubah disini
+    // 'timezone' => 'Asia/Jakarta',
+    // 'locale' => 'id',
+    // 'faker_locale' => 'id_ID',
+
+    
     'timezone' => 'UTC',
 
     /*
@@ -80,7 +86,9 @@ return [
     |
     */
 
+    // Ubah disini
     'locale' => 'en',
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -106,7 +114,9 @@ return [
     |
     */
 
+    // Ubah disini
     'faker_locale' => 'en_US',
+    
 
     /*
     |--------------------------------------------------------------------------

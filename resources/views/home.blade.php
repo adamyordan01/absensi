@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        {{-- <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -68,6 +68,17 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div> --}}
+        <div class="col-md">
+            <div class="jumbotron">
+                <h1 class="display-4">Selamat datang, {{ Auth::user()->name }}</h1>
+                <p class="lead">Anda telah masuk kedalam aplikasi absensi Kantor Walikota - Kota Langsa. Silahkan lakukan absensi masuk pada menu absensi yang terdapat pada sisi kiri. </p>
+                <hr class="my-4">
+                <p>Anda dapat menekan tombol dibawah ini untuk langsung masuk pada halaman absensi masuk.</p>
+                <p class="lead">
+                  <a class="btn btn-primary btn-lg" href="{{ route('attendance-in') }}" role="button">Absen Masuk</a>
+                </p>
             </div>
         </div>
     </div>

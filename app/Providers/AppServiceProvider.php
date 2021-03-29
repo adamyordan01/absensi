@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 // use Illuminate\Auth\Access\Gate;
+
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -27,6 +29,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        // Set timezone ke indonesia
+        // config(['app.locale' => 'id']);
+        // Carbon::setLocale('id');
+        // date_default_timezone_set('Asia/Jakarta');
 
         // Gates Authorization
         //MEMBUAT GATE DIMANA PARAMETER PERTAMA ADALAH NAMA GATE-NYA

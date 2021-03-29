@@ -1,11 +1,11 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-        <div class="sidebar-brand-icon">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
+        {{-- <div class="sidebar-brand-icon">
             <img src="{{ asset('assets') }}/img/BPNLangsa.png" width="50" height="50" alt="">
-        </div>
-        <div class="sidebar-brand-text mx-3">BPN Kota Langsa</div>
+        </div> --}}
+        <div class="sidebar-brand-text mx-2 text-sm"> Kantor Walikota-Kota Langsa</div>
     </a>
     <hr class="sidebar-divider my-0">
 
@@ -34,11 +34,20 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Absensi:</h6>
                     <a class="collapse-item {{ Request::is('attendance-in*') ? 'active' : '' }}" href="{{ route('attendance-in') }}">Absensi Masuk</a>
-                    <a class="collapse-item" href="cards.html">Absensi Keluar</a>
+                    <a class="collapse-item {{ Request::is('attendance-out*') ? 'active' : '' }}" href="{{ route('attendance-out') }}">Absensi Keluar</a>
                 </div>
             </div>
-        </li>        
-    @endcan
+        </li>
+        @endcan
+
+        @can('isAdmin')    
+            <li class="nav-item {{ Request::is('user*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('user.index') }}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Users</span>
+                </a>
+            </li>
+        @endcan
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
@@ -51,10 +60,10 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Laporan:</h6>
                 @can('isPegawai')
-                    <a class="collapse-item" href="buttons.html">Laporan Per Karyawan</a>
+                    <a class="collapse-item" href="{{ route('attendance-report') }}">Laporan Per Karyawan</a>
                 @endcan
                 @can('isAdmin')
-                    <a class="collapse-item" href="cards.html">Laporan Keseluruhan</a>
+                    <a class="collapse-item" href="{{ route('attendance-report-admin') }}">Laporan Keseluruhan</a>
                 @endcan
             </div>
         </div>

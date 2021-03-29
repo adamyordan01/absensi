@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ $title ?? 'BPN Kota Langsa' }}</title>
+    <title>{{ $title ?? 'Kantor Walikota | Kota Langsa' }}</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('assets') }}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

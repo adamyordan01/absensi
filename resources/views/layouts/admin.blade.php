@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ $title ?? 'BPN Kota Langsa' }}</title>
+    <title>{{ $title ?? 'Kantor Walikota | Kota Langsa' }}</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('assets') }}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -19,6 +19,8 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets') }}/css/sb-admin-2.min.css" rel="stylesheet">
+
+    @yield('css')
 
 </head>
 
@@ -60,7 +62,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; BPN Kota Langsa <?= date('Y')?></span>
+                        <span>Copyright &copy; Kantor Walikota | Kota Langsa <?= date('Y')?></span>
                     </div>
                 </div>
             </footer>

@@ -1,4 +1,17 @@
-@extends('layouts.admin', ['title', 'Barang | BPN Kota Langsa'])
+@extends('layouts.admin', ['title', 'Absensi | Kantor Walikota-Kota Langsa'])
+
+@section('css')
+    <link rel="stylesheet" type="text/css" href="http://keith-wood.name/css/jquery.signature.css">
+    
+    <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/south-street/jquery-ui.css" rel="stylesheet"> 
+    <style>
+        .kbw-signature { width: 100%; height: 200px;}
+        #sig canvas{
+            width: 100% !important;
+            height: auto;
+        }
+    </style>
+@endsection
 
 @section('breadcrumb')
 <nav aria-label="breadcrumb">
@@ -44,6 +57,15 @@
                             </div>
                         </div>
 
+                        <div class="col-md-12">
+                            <label class="" for="">Signature:</label>
+                            <br/>
+                            <div id="sig" ></div>
+                            <br/>
+                            <button id="clear" class="btn btn-danger btn-sm">Clear Signature</button>
+                            <textarea id="signature64" name="signed" style="display: none"></textarea>
+                        </div>
+
                         <div class="row">
                             <div class="mx-auto my-5">
                                 <button type="submit" class="btn btn-lg btn-primary text-center">Klik Absensi Masuk</button>
@@ -71,5 +93,16 @@
 		document.getElementById("menit").innerHTML = waktu.getMinutes();
 		document.getElementById("detik").innerHTML = waktu.getSeconds();
 	}
+</script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://keith-wood.name/js/jquery.signature.js"></script>
+
+<script type="text/javascript">
+    var sig = $('#sig').signature({syncField: '#signature64', syncFormat: 'PNG'});
+    $('#clear').click(function(e) {
+        e.preventDefault();
+        sig.signature('clear');
+        $("#signature64").val('');
+    });
 </script>
 @endsection
