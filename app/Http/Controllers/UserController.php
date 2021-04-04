@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::where('level', '=', 'pegawai')->get();
+        $users = User::where('level', '=', 'pegawai')->simplePaginate(10);
         
         return view('users.index', [
             'users' => $users,

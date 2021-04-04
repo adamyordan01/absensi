@@ -36,7 +36,7 @@
                     <tbody>
                         @forelse ($users as $user)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ ($users->currentPage() - 1) * ($users->perPage()) + $loop->iteration }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->level }}</td>
                                 <td>
@@ -56,6 +56,9 @@
                         @endforelse
                     </tbody>
                 </table>
+                <div class="float-right">
+                    {{ $users->links() }}
+                </div>
             </div>
         </div>
     </div>

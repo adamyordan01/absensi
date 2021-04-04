@@ -21,6 +21,12 @@ class User extends Authenticatable
         'level',
         'email',
         'password',
+        'phone',
+        'address',
+        'rankandgroup_id',
+        'nip',
+        'photo',
+        'division_id',
     ];
 
     /**
@@ -41,4 +47,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getTakePictureAttribute()
+    {
+        return "storage/pegawai/" . $this->photo;
+    }
+
+    public function division()
+    {
+        return $this->belongsTo(Division::class);
+    }
+
+    public function rank()
+    {
+        return $this->belongsTo(RankAndGroup::class, 'rankandgroup_id');
+    }
 }

@@ -47,6 +47,18 @@
                     <span>Users</span>
                 </a>
             </li>
+            <li class="nav-item {{ Request::is('division*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('division.index') }}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Divisi</span>
+                </a>
+            </li>
+            <li class="nav-item {{ Request::is('rank-and-group*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('rank-and-group.index') }}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Pangakat/Golongan</span>
+                </a>
+            </li>
         @endcan
 
     <!-- Nav Item - Pages Collapse Menu -->

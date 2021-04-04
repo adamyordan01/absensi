@@ -6,6 +6,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\RankAndGroupController;
 use App\Http\Controllers\SignaturePadController;
 use App\Http\Controllers\UserController;
 
@@ -32,6 +34,10 @@ Auth::routes();
 // Route::get('/home', [HomeController::class, 'index'])->middleware('can:isPegawai')->name('home');
 
 Route::middleware(['auth'])->group(function () {
+    Route::resource('/rank-and-group', RankAndGroupController::class)->middleware('can:isAdmin');
+
+    Route::resource('/division', DivisionController::class)->middleware('can:isAdmin');
+
     Route::get('/user/index', [UserController::class, 'index'])->middleware('can:isAdmin')->name('user.index');
     Route::delete('/user/delete/{user}', [UserController::class, 'destroy'])->middleware('can:isAdmin')->name('user.destroy');
 
