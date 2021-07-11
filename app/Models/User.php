@@ -26,6 +26,8 @@ class User extends Authenticatable
         'rankandgroup_id',
         'nip',
         'photo',
+        'position_id',
+        'status',
         'division_id',
     ];
 
@@ -61,5 +63,10 @@ class User extends Authenticatable
     public function rank()
     {
         return $this->belongsTo(RankAndGroup::class, 'rankandgroup_id');
+    }
+
+    public function position()
+    {
+        return $this->belongsTo(Position::class, 'position_id');
     }
 }

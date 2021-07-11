@@ -7,6 +7,7 @@ use DateTimeZone;
 use Carbon\Carbon;
 use PDF;
 use App\Models\Attendance;
+use App\Models\Leave;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,8 @@ class AttendanceController extends Controller
         } elseif (!$attendance) {
             // dd("Belum ada woii, absen teross");
             // $folderPath = public_path('upload/');
+            // $signature = $request->signature;
+
             $folderPath = 'upload/';
         
             $image_parts = explode(";base64,", $request->signed);
@@ -53,11 +56,26 @@ class AttendanceController extends Controller
             
             $file = $folderPath . uniqid() . '.'.$image_type;
             file_put_contents($file, $image_base64);
+
+            $photoPath = 'photo/';
+
+            $photo = $request->image;
+            $photo_parts = explode(";base64,", $photo);
+            $photo_type_aux = explode("image/", $photo_parts[0]);
+            $photo_type = $photo_type_aux[1];
+        
+            $photo_base64 = base64_decode($photo_parts[1]);
+            $fileName = uniqid() . '.' . $photo_type;
+        
+            $photoFile = $photoPath . $fileName;
+            file_put_contents($photoFile, $photo_base64);
+
             $attendances = Attendance::create([
                 'user_id' => Auth::id(),
                 'when' => $when,
                 'in' => $localTime,
                 'attendance_in' => $file,
+                'photo_in' => $photoFile,
             ]);
         }
         return redirect()->back()->with('success', 'Selamat anda telah melakukan absensi masuk, Terima Kasih.');
@@ -75,6 +93,8 @@ class AttendanceController extends Controller
             ['when', '=', $when],
         ])->first(); 
         
+        
+        if ($attendance['out'] == "" && $attendance['in'] != "") {
         $folderPath = 'upload/';
         
         $image_parts = explode(";base64,", $request->signed);
@@ -88,12 +108,31 @@ class AttendanceController extends Controller
         $file = $folderPath . uniqid() . '.'.$image_type;
         file_put_contents($file, $image_base64);
        
-        
-        if ($attendance['out'] == "" && $attendance['in'] != "") {
+        $photo = $request->image;
+        $photo_parts = explode(";base64,", $photo);
+        $photo_type_aux = explode("image/", $photo_parts[0]);
+        $photo_type = $photo_type_aux[1];
+    
+        $photo_base64 = base64_decode($photo_parts[1]);
+        $fileName = uniqid() . '.' . $photo_type;
+    
+        $photoFile = $folderPath . $fileName;
+        file_put_contents($photoFile, $photo_base64);
+
+        // $attendances = Attendance::create([
+        //     'user_id' => Auth::id(),
+        //     'when' => $when,
+        //     'in' => $localTime,
+        //     'attendance_in' => $file,
+        //     'photo_in' => $photoFile,
+        // ]);
+
+
             $data = [
                 'out' => $localTime,
                 'total' => date('H:i:s', strtotime($localTime) - strtotime($attendance->in)),
                 'attendance_out' => $file,
+                'photo_out' => $photoFile,
             ];
             $attendance->update($data);
             return redirect()->back()->with('success', 'Selamat anda telah melakukan absensi pulang, Terima Kasih.');
@@ -101,6 +140,51 @@ class AttendanceController extends Controller
             return redirect()->back()->with('error', 'Silahkan lakukan absensi masuk dahulu, Terima Kasih.');
         } else {
             return redirect()->back()->with('error', 'Anda telah melakukan absensi masuk, Terima Kasih.');
+        }
+    }
+
+    public function annotation()
+    {
+        $leaves = Leave::latest()->where('user_id', '=', Auth::id())->simplePaginate(10);
+
+        return view('attendance.annotation-index', [
+            'leaves' => $leaves
+        ]);
+    }
+
+    public function annotationCreate()
+    {
+        return view('attendance.annotation-create');
+    }
+
+    public function annotationStore(Request $request)
+    {
+        $timezone = "Asia/Jakarta";
+        $date = new DateTime('now', new DateTimeZone($timezone));
+        $when = $date->format('Y-m-d');
+        // $localTime = $date->format('H:i:s');
+
+        $leave = Leave::where([
+            ['user_id', '=', Auth::id()],
+            ['when', '=', $when],
+        ])->first();
+
+        if ($leave) {
+            return redirect()->route('annotation')->with('error', 'Anda telah melakukan izin untuk hari ini, Silahkan tunggu konfirmasi dari Kepala Kantor, Terima Kasih.');
+        } elseif (!$leave) {
+            $this->validate($request, [
+                'annotation' => 'required'
+            ]);
+    
+            Leave::create([
+                'user_id' => Auth::id(),
+                'leave' => $request->leave,
+                'annotation' => $request->annotation,
+                'status' => 'pending',
+                'when' => $when,
+            ]);
+            
+            return redirect()->route('annotation')->with('success', 'Anda berhasil membuat permohonan izin, silahkan tunggu konfirmasi dari Kepala Kantor, Terima Kasih.');
         }
     }
 

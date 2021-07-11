@@ -38,9 +38,16 @@
                 </div>
             </div>
         </li>
+        
+        <li class="nav-item {{ Request::is('annotation*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('annotation') }}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Izin/Cuti</span>
+            </a>
+        </li>
         @endcan
 
-        @can('isAdmin')    
+        @can('isAdmin')
             <li class="nav-item {{ Request::is('user*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('user.index') }}">
                     <i class="fas fa-fw fa-users"></i>
@@ -74,12 +81,32 @@
                 @can('isPegawai')
                     <a class="collapse-item" href="{{ route('attendance-report') }}">Laporan Per Karyawan</a>
                 @endcan
-                @can('isAdmin')
+                {{-- @can('isAdmin') --}}
+                @if (Auth::user()->level == 'admin' || Auth::user()->level == 'kepala_kantor')
                     <a class="collapse-item" href="{{ route('attendance-report-admin') }}">Laporan Keseluruhan</a>
-                @endcan
+                @endif
+                {{-- @endcan --}}
             </div>
         </div>
     </li>
+
+    @if (Auth::user()->level == 'kepala_kantor')
+        <li class="nav-item {{ Request::is('leave*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('leave.index') }}">
+                <i class="fas fa-fw fa-list"></i>
+                <span>Daftar Izin Cuti</span>
+            </a>
+        </li>
+    @endif
+
+    @if (Auth::user()->level == 'admin')
+        <li class="nav-item {{ Request::is('position*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('position.index') }}">
+                <i class="fas fa-fw fa-list"></i>
+                <span>Daftar Jabatan</span>
+            </a>
+        </li>
+    @endif
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

@@ -45,14 +45,17 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <td>#</td>
-                                    <td>Nama Pegawai</td>
-                                    <td>Tanggal</td>
-                                    <td>Jam Masuk</td>
-                                    <td>TTD Masuk</td>
-                                    <td>Jam Pulang</td>
-                                    <td>TTD Pulang</td>
-                                    <td>Jumlah Jam Kerja</td>
+                                    <th>#</th>
+                                    <th>Nama Pegawai</th>
+                                    <th>Tanggal</th>
+                                    <th>Jam Masuk</th>
+                                    <th>TTD Masuk</th>
+                                    <th>Photo Masuk</th>
+                                    <th>Jam Pulang</th>
+                                    <th>TTD Pulang</th>
+                                    <th>Photo Pulang</th>
+                                    <th>Jumlah Jam Kerja</th>
+                                    <th>Ket</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,11 +70,24 @@
                                         <td>
                                             <img class="text-center" src="{{ asset($attendance->attendance_in) }}" width="150px" alt="">
                                         </td>
+                                        <td>
+                                            <img class="text-center" src="{{ asset($attendance->photo_in) }}" width="150px" alt="">
+                                        </td>
                                         <td>{{ $attendance->out }}</td>
                                         <td>
                                             <img class="text-center" src="{{ asset($attendance->attendance_out) }}" width="150px" alt="">
                                         </td>
+                                        <td>
+                                            <img class="text-center" src="{{ asset($attendance->photo_out) }}" width="150px" alt="">
+                                        </td>
                                         <td>{{ $attendance->total }}</td>
+                                        <td>
+                                            @if ($attendance->annotation == 'ditolak')
+                                                <p>Anda Tidak diperbolehkan cuti.</p>
+                                            @elseif ($attendance->annotation == 'disetujui')
+                                                <p>Anda Diperbolehkan cuti.</p>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>

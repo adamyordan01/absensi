@@ -40,12 +40,25 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->level }}</td>
                                 <td>
+                                    @if ($user->status == 1)
+                                        <span class="badge badge-success">Aktif</span>
+                                    @elseif ($user->status == 0)
+                                        <span class="badge badge-dark">Tidak Aktif</span>
+                                    @endif
+                                </td>
+                                <td>
                                     <form action="{{ route('user.destroy', $user->id) }}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-circle btn-sm btn-danger" onclick="return confirm('Apakah ingin menghapus data tersebut?');">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>
+                                        <a href="#" class="btn btn-circle btn-sm btn-primary" data-toggle="modal" data-target="#editModal-{{ $user->id }}">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                        @if ($user->level != 'kepala_kantor')
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit" class="btn btn-circle btn-sm btn-danger" onclick="return confirm('Apakah ingin menghapus data tersebut?');">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        @endif
                                     </form>
                                 </td>
                             </tr>
@@ -63,4 +76,47 @@
         </div>
     </div>
 </div>
+
+  <!-- Modal -->
+  @foreach ($users as $user)
+    <div class="modal fade" id="editModal-{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">Edit User</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <form action="{{ route('user.update', $user->id) }}" method="post">
+                @csrf
+                @method('PATCH')
+                <div class="form-group">
+                    <label for="">Nama</label>
+                    <p class="text-primary">{{ $user->name }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="">Level</label>
+                    <p class="text-primary">{{ $user->level }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="">Status</label>
+                    <select name="status" id="" class="form-control">
+                        {{-- <option value="pending" {{ $leave->status == 'pending' ? 'selected' : '' }} disabled>Pending</option> --}}
+                        <option value="1" {{ $user->status == '1' ? 'selected' : '' }}>Aktif</option>
+                        <option value="0" {{ $user->status == '0' ? 'selected' : '' }}>Tidak Aktif</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </form>
+        </div>
+        </div>
+    </div>
+  @endforeach
+
 @endsection

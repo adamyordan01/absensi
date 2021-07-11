@@ -7,6 +7,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\PositionController;
 use App\Http\Controllers\RankAndGroupController;
 use App\Http\Controllers\SignaturePadController;
 use App\Http\Controllers\UserController;
@@ -40,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/user/index', [UserController::class, 'index'])->middleware('can:isAdmin')->name('user.index');
     Route::delete('/user/delete/{user}', [UserController::class, 'destroy'])->middleware('can:isAdmin')->name('user.destroy');
+    Route::patch('/user/{user}', [UserController::class, 'update'])->name('user.update');
 
     Route::get('/password', [PasswordController::class, 'edit'])->name('password');
     Route::patch('password-update', [PasswordController::class, 'update'])->name('password-update');
@@ -56,11 +59,25 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/attendance-report/pdf/{daterange}', [AttendanceController::class, 'attendanceReportPdf'])->middleware('can:isPegawai')->name('attendance-report-pdf');
     Route::get('/attendance-report-user/print/{daterange}', [AttendanceController::class, 'attendanceUserPrint'])->middleware('can:isPegawai')->name('attendance-user-print');
 
-    Route::get('/attendance-report-admin', [AttendanceController::class, 'attendanceReportAdmin'])->middleware('can:isAdmin')->name('attendance-report-admin');
-    Route::get('/attendance-report-admin/pdf/{daterange}', [AttendanceController::class, 'attendanceReportAdminPdf'])->middleware('can:isAdmin')->name('attendance-report-admin-pdf');
-    Route::get('/attendance-report-admin/print/{daterange}', [AttendanceController::class, 'attendancePrint'])->middleware('can:isAdmin')->name('attendance-print');
+    Route::get('/attendance-report-admin', [AttendanceController::class, 'attendanceReportAdmin'])->name('attendance-report-admin');
+    Route::get('/attendance-report-admin/pdf/{daterange}', [AttendanceController::class, 'attendanceReportAdminPdf'])->name('attendance-report-admin-pdf');
+    Route::get('/attendance-report-admin/print/{daterange}', [AttendanceController::class, 'attendancePrint'])->name('attendance-print');
 
     Route::post('/attendance-in', [AttendanceController::class, 'store'])->middleware('can:isPegawai')->name('attendance-in-store');
     Route::post('/attendance-out', [AttendanceController::class, 'updateAttendanceOut'])->middleware('can:isPegawai')->name('attendance-out-store');
+
+    Route::get('/annotation', [AttendanceController::class, 'annotation'])->name('annotation');
+    Route::get('/annotation/create', [AttendanceController::class, 'annotationCreate'])->name('annotation.create');
+    Route::post('/annotation/store', [AttendanceController::class, 'annotationStore'])->name('annotation.store');
+
+    // Kepala Kantor
+    Route::get('/leave', [LeaveController::class, 'index'])->name('leave.index');
+    Route::any('/leave/{leave}', [LeaveController::class, 'update'])->name('leave.update');
+
+    // Jabatan 01072021
+    Route::get('/position', [PositionController::class, 'index'])->name('position.index');
+    Route::post('/position/store', [PositionController::class, 'store'])->name('position.store');
+    Route::patch('/position/{position}', [PositionController::class, 'update'])->name('position.update');
+    Route::delete('/position/delete/{position}', [PositionController::class, 'destroy'])->name('position.destroy');
     
 });

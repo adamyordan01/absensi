@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Division;
+use App\Models\Position;
 use Illuminate\Support\Str;
+use App\Models\RankAndGroup;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateProfileRequest;
-use App\Models\Division;
-use App\Models\RankAndGroup;
 
 class ProfileController extends Controller
 {
@@ -16,12 +17,13 @@ class ProfileController extends Controller
         // $profile = User::find($id);
         $divisions = Division::get();
         $ranks = RankAndGroup::get();
+        $positions = Position::get();
 
         return view('users.profile', [
             'user' => $request->user(),
             'divisions' => $divisions,
             'ranks' => $ranks,
-            // 'profile' => $profile
+            'positions' => $positions
         ]);
     }
 
@@ -61,6 +63,7 @@ class ProfileController extends Controller
             'rankandgroup_id' => $request->rankandgroup_id,
             'division_id' => $request->division_id,
             'photo' => $filename,
+            'position_id' => $request->position_id,
         ]);
         
 

@@ -24,6 +24,12 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="" class="col-sm-4 col-form-label">Jabatan</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control-plaintext" value="{{ Auth::user()->position_id != NULL ? Auth::user()->position->position_name : '-' }}" readonly disabled>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="" class="col-sm-4 col-form-label">Email</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control-plaintext" value="{{ Auth::user()->email }}" readonly disabled>
@@ -95,6 +101,18 @@
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="name" id="name" value="{{ $user->name }}">
                             <p class="text-danger">{{ $errors->first('name') }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-3 col-form-label">Jabatan</label>
+                        <div class="col-sm-9">
+                            <select name="position_id" id="" class="form-control">
+                                <option disabled>Pilih Salah Satu Jabatan</option>
+                                @foreach ($positions as $position)
+                                    <option value="{{ $position->id }}" {{ $position->id == Auth::user()->position_id ? 'selected' : '' }}>{{ $position->position_name }}</option>
+                                @endforeach
+                            </select>
+                            <p class="text-danger">{{ $errors->first('position_id') }}</p>
                         </div>
                     </div>
                     <div class="form-group row">

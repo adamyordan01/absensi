@@ -66,6 +66,14 @@
                             <textarea id="signature64" name="signed" style="display: none"></textarea>
                         </div>
 
+                        <div class="col-md-12">
+                            <div id="my_camera"></div>
+                            <br>
+                            <input type=button value="Take Snapshot" onClick="take_snapshot()">
+                            <input type="hidden" name="image" class="image-tag">
+                            <div id="results">Your captured image will appear here...</div>
+                        </div>
+
                         <div class="row">
                             <div class="mx-auto my-5">
                                 <button type="submit" class="btn btn-lg btn-primary text-center">Klik Absensi Pulang</button>
@@ -96,6 +104,7 @@
 </script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="http://keith-wood.name/js/jquery.signature.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
 
     <script type="text/javascript">
         var sig = $('#sig').signature({syncField: '#signature64', syncFormat: 'PNG'});
@@ -105,4 +114,21 @@
             $("#signature64").val('');
         });
     </script>
+<script>
+    Webcam.set({
+        width: 490,
+        height: 390,
+        image_format: 'png',
+        jpeg_quality: 90
+    });
+  
+    Webcam.attach( '#my_camera' );
+  
+    function take_snapshot() {
+        Webcam.snap( function(data_uri) {
+            $(".image-tag").val(data_uri);
+            document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
+        } );
+    }
+</script>
 @endsection

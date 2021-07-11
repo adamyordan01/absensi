@@ -37,9 +37,12 @@
                             <th>Tanggal</th>
                             <th>Jam Masuk</th>
                             <th>TTD Masuk</th>
+                            <th>Foto Masuk</th>
                             <th>Jam Pulang</th>
                             <th>TTD Pulang</th>
+                            <th>Foto Pulang</th>
                             <th>Jumlah Jam Kerja</th>
+                            <th>Keterangan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,15 +51,28 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $attendance->user->name }}</td>
                                 <td>{{ Carbon\Carbon::parse($attendance->when)->format('d-m-Y') }}</td>
+                                <td>{{ $attendance->out }}</td>
                                 <td>
-                                    <img src="{{ asset($attendance->attendance_in) }}" width="150px" alt="">
+                                    <img src="{{ asset($attendance->attendance_in) }}" width="50px" alt="">
+                                </td>
+                                <td>
+                                    <img src="{{ asset($attendance->photo_in) }}" width="50px" alt="">
                                 </td>
                                 <td>{{ $attendance->out }}</td>
                                 <td>
-                                    <img src="{{ asset($attendance->attendance_out) }}" width="150px" alt="">
+                                    <img src="{{ asset($attendance->attendance_out) }}" width="50px" alt="">
                                 </td>
-                                <td>{{ $attendance->out }}</td>
+                                <td>
+                                    <img src="{{ asset($attendance->photo_out) }}" width="50px" alt="">
+                                </td>
                                 <td>{{ $attendance->total }}</td>
+                                <td>
+                                    @if ($attendance->annotation == 'ditolak')
+                                        <p>Anda Tidak diperbolehkan cuti.</p>
+                                    @elseif ($attendance->annotation == 'disetujui')
+                                        <p>Anda Diperbolehkan cuti.</p>
+                                    @endif
+                                </td>
                             </tr>
                         @empty
                             <tr>
